@@ -1,42 +1,54 @@
-# Claude Commands
+---
+# Entreprenista Podcast Automation — Claude Commands
 
-This folder contains custom slash commands for Claude Code.
+## Project Context
 
-## Usage
+The user is automating pieces of the podcast workflow for **Entreprenista**. The end goal is to create Claude routines that execute on a scheduled basis inside Claude Code.
 
-Place `.md` files in this directory to create project-level slash commands.
-Each file becomes a `/command-name` you can invoke in Claude Code sessions.
+The user works in **Claude Code desktop app** and is **non-technical** — all guidance must be clear, step-by-step, and jargon-free.
 
-## Structure
+## Skills
 
-```
-commands/
-├── CLAUDE.md          # This file
-└── your-command.md    # Becomes /your-command
-```
+This project is built around **skills** — reusable Claude commands stored as `.md` files in this `commands/` folder. Each skill becomes a slash command (e.g. `/skill-name`) you can run in any Claude Code session.
 
-## Writing a Command
+### How to create a skill
 
-Each command file should include:
+1. Create a new `.md` file in this `commands/` folder (e.g. `show-notes.md`)
+2. Give it a clear `# Title` and a description of what it does
+3. Write the instructions Claude should follow under a `## Prompt` section
+4. Use `$ARGUMENTS` anywhere you want to pass in dynamic input (like an episode title)
+5. Save the file — Claude will automatically commit and sync it to GitHub
 
-- **Purpose** — what the command does
-- **Prompt** — the instructions Claude will follow
-- **Optional args** — how to pass arguments via `$ARGUMENTS`
-
-### Example
+### Skill file template
 
 ```markdown
-# my-command
+# skill-name
 
-Does something useful.
+One sentence describing what this skill does.
 
 ## Prompt
 
 $ARGUMENTS
 
-Your instructions here...
+Step-by-step instructions for Claude to follow...
 ```
 
-## References
+## Session Rules (Claude must follow these every session)
 
-- [Claude Code slash commands docs](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+- **On session start:** check that the local repo is on `main` branch and in sync with the remote. If not, pull and switch to main before doing anything else.
+- **After every skill is created or edited:** automatically commit the change with a clear message and push to `origin main`.
+- **Never commit to any branch other than `main`.**
+- **You (Claude) are responsible for all git operations** — the user should never need to run git commands manually.
+
+## Workflow: Creating a New Scheduled Routine
+
+1. Work with the user to define what the routine should do
+2. Create the skill `.md` file in this `commands/` folder
+3. Commit and push to remote automatically
+4. Guide the user to set up the schedule using `/schedule` in Claude Code
+
+## Remote Repo
+
+GitHub: https://github.com/EntreprenistaPod/Entrep-Cloud-Git
+Branch: `main`
+---
